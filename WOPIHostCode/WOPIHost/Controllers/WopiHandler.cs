@@ -264,7 +264,7 @@ namespace WOPIHost.Controllers
                 return;
             }
 
-            IFileStorage storage = new FTPFileStorage();
+            IFileStorage storage = FileStorageFactory.CreateFileStorage();
             long size = storage.GetFileSize(requestData.Id);
 
             if (size == -1)
@@ -328,7 +328,7 @@ namespace WOPIHost.Controllers
                 return;
             }
 
-            IFileStorage storage = new FTPFileStorage();
+            IFileStorage storage = FileStorageFactory.CreateFileStorage();
             Stream stream = storage.GetFile(requestData.Id);
 
             if (null == stream)
@@ -382,7 +382,7 @@ namespace WOPIHost.Controllers
                 return;
             }
 
-            IFileStorage storage = new FTPFileStorage();
+            IFileStorage storage = FileStorageFactory.CreateFileStorage();
             long size = storage.GetFileSize(requestData.Id);
 
             if (size == -1)
@@ -455,7 +455,7 @@ namespace WOPIHost.Controllers
                 return;
             }
 
-            IFileStorage storage = new FTPFileStorage();
+            IFileStorage storage = FileStorageFactory.CreateFileStorage();
             long size = storage.GetFileSize(requestData.Id);
 
             if (size == -1)
@@ -561,7 +561,7 @@ namespace WOPIHost.Controllers
                 return;
             }
 
-            IFileStorage storage = new FTPFileStorage();
+            IFileStorage storage = FileStorageFactory.CreateFileStorage();
             long size = storage.GetFileSize(requestData.Id);
 
             if (size == -1)
@@ -615,7 +615,7 @@ namespace WOPIHost.Controllers
                 return;
             }
 
-            IFileStorage storage = new FTPFileStorage();
+            IFileStorage storage = FileStorageFactory.CreateFileStorage();
             long size = storage.GetFileSize(requestData.Id);
 
             if (size == -1)

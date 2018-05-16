@@ -7,7 +7,7 @@ using System.IO;
 
 namespace WOPIHost
 {
-    interface IFileStorage
+    public interface IFileStorage
     {
         /// <summary>
         /// Get file size.

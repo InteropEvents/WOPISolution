@@ -34,7 +34,7 @@ namespace WOPIHost.Controllers
         {
             List<FileLink> files = new List<FileLink>();
 
-            IFileStorage storage = new FTPFileStorage();
+            IFileStorage storage = FileStorageFactory.CreateFileStorage();
             List<string> fileNames = storage.GetFileNames();
 
             foreach (string fileName in fileNames)
