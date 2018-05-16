@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <!-- Enable IE Standards mode -->
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+
+    <link rel="shortcut icon"
+          href="<OFFICE ONLINE APPLICATION FAVICON URL>" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h1>Sample Host Page</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="list-group" id="fileList" name="fileList">
+                    @section scripts{
+                        <script type="text/javascript">
+                            $.ajax({
+                                url: "/HostPage/GetFileList",
+                                data: null,
+                                type:"get",
+                                cache: false,
+                                success: function (result) {
+                                    result = JSON.parse(result);
+                                    for (i = 0; i < result.length; i++)
+                                    {
+                                        var file = result[i];
+                                        var link = "<a href=\"" + file.Url + "\">" + file.Name + "</a>";
+                                        $("#fileList").append(link);
+                                        $("#fileList").append("<br/>");
+                                    }
+                                },
+                                error: function (result) {
+                                    alert(result[0]);
+                                    alert(result[1]);
+                                }
+                            });
+                        </script>
+                        }
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

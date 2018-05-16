@@ -1,0 +1,6 @@
+﻿<userpermission>
+  <user name="TestUser">
+    <file name="NoReadWritePermission.docx">none</file>
+    <file name="OnlyReadPermission.docx">Read</file>    
+  </user>
+</userpermission>

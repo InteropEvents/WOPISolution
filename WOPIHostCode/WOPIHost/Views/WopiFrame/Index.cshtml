@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <!-- Enable IE Standards mode -->
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+</head>
+<body>
+
+    <form id="office_form" name="office_form" target="office_frame"
+          action="" method="post">
+        @*<input name="access_token" value="fdjkal" type="hidden" />
+        <input name="access_token_ttl" value="fdjkal" type="hidden" />*@
+    </form>
+    <span id="frameholder">
+        <iframe name="office_frame" id="office_frame" style="width:100%;height:800px;"></iframe>
+    </span>
+    @section scripts{
+        <script type="text/javascript">
+            $(document).ready(function () {
+                (document.getElementById('office_form')).action = htmlDecodeByRegExp("@(ViewData["URL"])");
+                document.getElementById('office_form').submit();
+            });
+
+            function htmlDecodeByRegExp(str){
+                var s = "";
+                if(str.length == 0) return "";
+                s = str.replace(/&amp;/g,"&");
+                s = s.replace(/&lt;/g,"<");
+                s = s.replace(/&gt;/g,">");
+                s = s.replace(/&nbsp;/g," ");
+                s = s.replace(/&#39;/g,"\'");
+                s = s.replace(/&quot;/g,"\"");
+                return s;
+            }
+
+</script>
+    }
+</body>
+</html>
