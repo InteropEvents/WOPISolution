@@ -18,7 +18,7 @@ namespace WOPIHost.Controllers
         public ActionResult Index(string id)
         {
             string sourceDoc = id.ToLower();
-            string uid = ConfigurationManager.AppSettings["BrowserUserName"].ToLower();
+            string uid = "TestUser".ToLower();
 
             string access_token = AccessTokenUtil.WriteToken(AccessTokenUtil.GenerateToken(uid, sourceDoc));
 
