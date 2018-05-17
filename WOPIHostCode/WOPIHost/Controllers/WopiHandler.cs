@@ -23,6 +23,7 @@ namespace WOPIHost.Controllers
         private const string FoldersRequestPath = @"folders/";
         private const string ContentsRequestPath = @"/contents";
         private const string ChildrenRequestPath = @"/children";
+        private const string uid = "TestUser";
         public static readonly string LocalStoragePath = ConfigurationManager.AppSettings["FileServiceUrl"];
 
         private class LockInfo
@@ -691,7 +692,7 @@ namespace WOPIHost.Controllers
             if (AccessTokenUtil.ValidateToken(requestData.AccessToken, requestData.Id.ToLower()))
             {
                 string userName = AccessTokenUtil.GetUserFromToken(requestData.AccessToken);
-                string userPermission = AccessTokenUtil.readUserXml(ConfigurationManager.AppSettings["BrowserUserName"], requestData.Id);
+                string userPermission = AccessTokenUtil.readUserXml(uid, requestData.Id);
 
                 if (userPermission.Equals("none"))
                 {
