@@ -33,8 +33,6 @@ namespace WOPIHost.Controllers
                 ConfigurationManager.AppSettings["WOPIServerName"],
                 HttpUtility.UrlEncode(sourceDoc))));
 
-            urlSrc = urlSrc.ToLower().Replace(ConfigurationManager.AppSettings["OfficeServerName"].ToLower().Trim(), ConfigurationManager.AppSettings["OfficeServerIP"]);
-
             urlSrc = string.Format("{0}&access_token={1}", urlSrc, HttpUtility.UrlEncode(access_token));
 
             ViewData["URL"] = urlSrc;

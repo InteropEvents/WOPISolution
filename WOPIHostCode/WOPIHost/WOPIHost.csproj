@@ -225,8 +225,8 @@
     <Content Include="Contents\Test Space.docx" />
     <Content Include="Contents\NoReadWritePermission.docx" />
     <Content Include="Contents\OnlyReadPermission.docx" />
-    <Content Include="Contents\Web.config" />
     <Content Include="Contents\Test.xlsx" />
+    <Content Include="Contents\Test.pptx" />
     <None Include="Properties\PublishProfiles\fd.pubxml" />
     <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Properties\PublishProfiles\wopi - FTP %282%29.pubxml" />
