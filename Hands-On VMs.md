@@ -23,3 +23,6 @@
 | WOPIHost21 |	65.52.167.96:27386 |  
 
 
+Remote access to above ip:port,use the username and password I sent to you to login, browser to http://localhost:809/hostpage to get start
+
+
