@@ -180,6 +180,7 @@
     <Compile Include="Controllers\WopiRequest.cs" />
     <Compile Include="Controllers\WopiResponse.cs" />
     <Compile Include="Controllers\WopiRouteHandler.cs" />
+    <Compile Include="FileStorage.cs" />
     <Compile Include="FileStorageFactory.cs" />
     <Compile Include="FTPFileStorage.cs" />
     <Compile Include="Global.asax.cs">

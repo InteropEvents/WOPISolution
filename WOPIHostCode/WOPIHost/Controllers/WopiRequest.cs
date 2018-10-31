@@ -32,6 +32,7 @@ namespace WOPIHost.Controllers
     static class WopiHeaders
     {
         public const string RequestType = "X-WOPI-Override";
+        public const string ItemVersion = "X-WOPI-ItemVersion";
 
         public const string Lock = "X-WOPI-Lock";
         public const string OldLock = "X-WOPI-OldLock";

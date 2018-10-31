@@ -20,7 +20,7 @@ namespace WOPIHost
         /// Get file last modified time.
         /// </summary>
         /// <param name="name">File name</param>
-        /// <returns>File last modified time</returns>
+        /// <returns>File last modified time in UTC DateTime</returns>
         DateTime? GetLastModifiedTime(string name);
 
         /// <summary>
@@ -43,6 +43,19 @@ namespace WOPIHost
         /// </summary>
         /// <returns>File name list</returns>
         List<string> GetFileNames();
-             
+
+        /// <summary>
+        /// Get the file version.
+        /// </summary>
+        /// <param name="name">File name</param>
+        /// <returns>Return a string representing the file version.</returns>
+        string GetFileVersion(string name);
+
+        /// <summary>
+        /// Get File ReadOnly status
+        /// </summary>
+        /// <param name="name">File name</param>
+        /// <returns>Return true if readonly, false otherwise.</returns>
+        bool GetReadOnlyStatus(string name);
     }
 }

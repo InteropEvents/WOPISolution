@@ -274,8 +274,6 @@ namespace WOPIHost.Controllers
                 return;
             }
 
-            DateTime? lastModifiedTime = storage.GetLastModifiedTime(requestData.Id);
-
             try
             {
                 CheckFileInfoResponse responseData = new CheckFileInfoResponse()
@@ -284,14 +282,15 @@ namespace WOPIHost.Controllers
                     BaseFileName = Path.GetFileName(requestData.Id),
                     OwnerId = "documentOwnerId",
                     Size = Convert.ToInt32(size),
-                    //Version = file.LastWriteTimeUtc.ToString("O" /* ISO 8601 DateTime format string */), // Using the file write time is an arbitrary choice.
-                    Version = Convert.ToDateTime((DateTime)lastModifiedTime).ToFileTimeUtc().ToString(),
+                    Version = storage.GetFileVersion(requestData.Id),
 
                     // optional CheckFileInfo properties
                     BreadcrumbBrandName = "LocalStorage WOPI Host",
                     //BreadcrumbFolderName = fileInfo.Directory != null ? fileInfo.Directory.Name : "",
                     BreadcrumbFolderName = "",
                     BreadcrumbDocName = Path.GetFileNameWithoutExtension(requestData.Id),
+                    BreadcrumbBrandUrl = "http://" + context.Request.Url.Host,
+                    BreadcrumbFolderUrl = "http://" + context.Request.Url.Host,
 
                     UserFriendlyName = "A WOPI User",
 
@@ -299,8 +298,8 @@ namespace WOPIHost.Controllers
                     SupportsUpdate = true,
                     UserCanNotWriteRelative = true, /* Because this host does not support PutRelativeFile */
 
-                    ReadOnly = false,
-                    UserCanWrite = true
+                    ReadOnly = storage.GetReadOnlyStatus(requestData.Id),
+                    UserCanWrite = !storage.GetReadOnlyStatus(requestData.Id),
                 };
 
                 string jsonString = JsonConvert.SerializeObject(responseData);
@@ -428,6 +427,8 @@ namespace WOPIHost.Controllers
                     ReturnServerError(context.Response);
                     return;
                 }
+
+                context.Response.AddHeader(WopiHeaders.ItemVersion, storage.GetFileVersion(requestData.FullPath));
 
                 ReturnSuccess(context.Response);
             }
