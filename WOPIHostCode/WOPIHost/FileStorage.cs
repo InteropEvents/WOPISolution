@@ -14,7 +14,6 @@ namespace WOPIHost
         // TODO: add authentication flow from caller.
         //private string username = ConfigurationManager.AppSettings["FileServiceUserName"];
         //private string password = ConfigurationManager.AppSettings["FileServiceUserPassword"];
-        //internal const string localStoragePath = @"c:\WopiStorage\";
 
         /// <summary>
         /// Get file size.
