@@ -15,7 +15,7 @@ namespace WOPIHost.Utils
     {
         private const string sec = "ProEMLh5e_qnzdNUQrqdHPgp";
         private const string sec1 = "ProEMLh5e_qnzdNU";
-        
+
         /// <summary>
         /// Generate the token
         /// </summary>
@@ -52,31 +52,32 @@ namespace WOPIHost.Utils
         /// <returns>Return true if success; Otherwise, return false</returns>
         public static bool ValidateToken(string tokenString, string docId)
         {
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(sec));
-            SymmetricSecurityKey securityKey1 = new SymmetricSecurityKey(Encoding.Default.GetBytes(sec1));
-
-            JwtSecurityToken jwt = new JwtSecurityToken(tokenString);
-
-            // Verification
-            TokenValidationParameters tokenValidationParameters = new TokenValidationParameters()
-            {
-                ValidAudiences = new string[]
-                {
-                    "Audience"
-                },
-                ValidIssuers = new string[]
-                {
-                    "issuer"
-                },
-                IssuerSigningKey = securityKey,
-                // This is the decryption key
-                TokenDecryptionKey = securityKey1,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true
-            };
-
             try
             {
+
+                SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(sec));
+                SymmetricSecurityKey securityKey1 = new SymmetricSecurityKey(Encoding.Default.GetBytes(sec1));
+
+                JwtSecurityToken jwt = new JwtSecurityToken(tokenString);
+
+                // Verification
+                TokenValidationParameters tokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidAudiences = new string[]
+                    {
+                    "Audience"
+                    },
+                    ValidIssuers = new string[]
+                    {
+                    "issuer"
+                    },
+                    IssuerSigningKey = securityKey,
+                    // This is the decryption key
+                    TokenDecryptionKey = securityKey1,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true
+                };
+
                 SecurityToken validatedToken = null;
                 JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
                 ClaimsPrincipal principal = handler.ValidateToken(tokenString, tokenValidationParameters, out validatedToken);

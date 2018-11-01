@@ -86,15 +86,26 @@ namespace WOPIHost
             string fullPath = Path.Combine(localStoragePath, name);
             FileInfo putTargetFileInfo = new FileInfo(fullPath);
 
-            // Either the file has a valid lock that matches the lock in the request, or the file is unlocked
-            // and is zero bytes.  Either way, proceed with the PutFile.
-            // TODO: Should be replaced with proper file save logic to a real storage system and ensures write atomicity
-            using (var fileStream = File.Open(fullPath, FileMode.Truncate, FileAccess.Write, FileShare.None))
+            try
             {
-                stream.CopyTo(fileStream);
-            }
 
-            return 0;
+                // Either the file has a valid lock that matches the lock in the request, or the file is unlocked
+                // and is zero bytes.  Either way, proceed with the PutFile.
+                // TODO: Should be replaced with proper file save logic to a real storage system and ensures write atomicity
+                using (var fileStream = File.Open(fullPath, FileMode.Truncate, FileAccess.Write, FileShare.ReadWrite))
+                {
+                    stream.CopyTo(fileStream);
+                }
+
+                stream.Close();
+                stream.Dispose();
+
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
         }
 
         /// <summary>

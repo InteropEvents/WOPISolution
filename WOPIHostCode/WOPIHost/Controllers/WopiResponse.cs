@@ -9,6 +9,7 @@ namespace WOPIHost.Controllers
         public string BaseFileName { get; set; }
         public string OwnerId { get; set; }
         public int Size { get; set; }
+        public string UserId { get; set; }
         public string Version { get; set; }
 
         public string BreadcrumbBrandName { get; set; }
@@ -16,7 +17,6 @@ namespace WOPIHost.Controllers
         public string BreadcrumbFolderName { get; set; }
         public string BreadcrumbFolderUrl { get; set; }
         public string BreadcrumbDocName { get; set; }
-        public string BreadcrumbDocUrl { get; set; }
 
         public bool UserCanWrite { get; set; }
         public bool ReadOnly { get; set; }
@@ -26,16 +26,16 @@ namespace WOPIHost.Controllers
 
         public string UserFriendlyName { get; set; }
 
-        public bool WebEditingDisabled { get; set; }
+        //public bool WebEditingDisabled { get; set; }
         public bool RestrictedWebViewOnly { get; set; }
-        public bool SupportsCoauth { get; set; }
+        //public bool SupportsCoauth { get; set; }
         public bool SupportsCobalt { get; set; }
 
-        public string HostEditUrl { get; set; }
+        //public string HostEditUrl { get; set; }
         public bool EditModePostMessage { get; set; }
-        public bool DisableBrowserCachingOfUserContent { get; set; }
+        //public bool DisableBrowserCachingOfUserContent { get; set; }
 
-        public string SHA256 { get; set; }
+        //public string SHA256 { get; set; }
     }
 
     class PutRelativeFileResponse
