@@ -41,10 +41,22 @@ namespace WOPIHost.Controllers
             {
                 FileLink fileLink = new FileLink();
                 fileLink.Name = fileName;
-                fileLink.Url = string.Format("http://{0}/wopiframe/Index/{1}",
-                    ConfigurationManager.AppSettings["WOPIServerName"],
-                    fileName);
-                
+                if (fileName == ".wopitest")
+                {
+                    fileLink.Url = string.Format("http://{0}/WopiValidator/Index/{1}",
+                        ConfigurationManager.AppSettings["WOPIServerName"],
+                        fileName);
+
+                }
+
+                else
+                {
+                    fileLink.Url = string.Format("http://{0}/wopiframe/Index/{1}",
+                        ConfigurationManager.AppSettings["WOPIServerName"],
+                        fileName);
+
+                }
+
                 files.Add(fileLink);
             }
 
