@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Configuration;
+using System.IO;
 
 namespace WOPIHost.Controllers
 {
@@ -32,6 +33,7 @@ namespace WOPIHost.Controllers
     static class WopiHeaders
     {
         public const string RequestType = "X-WOPI-Override";
+        public const string ItemVersion = "X-WOPI-ItemVersion";
 
         public const string Lock = "X-WOPI-Lock";
         public const string OldLock = "X-WOPI-OldLock";
@@ -53,7 +55,21 @@ namespace WOPIHost.Controllers
 
         public string FullPath
         {
-            get { return Path.Combine(WopiHandler.LocalStoragePath, Id); }
+            get
+            {
+                string storageType = ConfigurationManager.AppSettings["FileStorageType"];
+                switch (storageType)
+                {
+                    case "FTP":
+                        return Path.Combine(ConfigurationManager.AppSettings["FileServiceUrl"], Id);
+
+                    case "Local":
+                        return Path.Combine(ConfigurationManager.AppSettings["FileLocalPath"], Id);
+
+                    default:
+                        return Path.Combine(ConfigurationManager.AppSettings["FileServiceUrl"], Id);
+                }
+            }
         }
     }
 }

@@ -1,0 +1,37 @@
+﻿@model WOPIHost.Models.WopiValidator
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>WOPI Validator</h2>
+
+<div>
+    <h4>Parameters</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FileName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FileName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AccessToken)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AccessToken)
+        </dd>
+        <dt>
+            Command 
+        </dt>
+        <dd>
+            dotnet run --project .\src\WopiValidator\WopiValidator.csproj --framework net45 -- -t @Html.DisplayFor(model => model.AccessToken) -w http://jeebshpzb:8888/wopi/files/.wopitest -l 0  -e WopiCore  -s
+        </dd>
+    </dl>
+</div>
+<p>
+    
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,4 +1,6 @@
 ﻿
+using System.Configuration;
+
 namespace WOPIHost
 {
     /// <summary>
@@ -12,7 +14,19 @@ namespace WOPIHost
         /// <returns></returns>
         public static IFileStorage CreateFileStorage()
         {
-            return new FTPFileStorage();
+            string storageType = ConfigurationManager.AppSettings["FileStorageType"];
+            switch (storageType)
+            {
+                case "FTP":
+                    return new FTPFileStorage();
+
+                case "Local":
+                    return new FileStorage();
+
+                default:
+                    return new FTPFileStorage();
+            }
+
         }
     }
 }

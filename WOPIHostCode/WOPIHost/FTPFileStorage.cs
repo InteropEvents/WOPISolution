@@ -43,7 +43,7 @@ namespace WOPIHost
         /// Get file last modified time.
         /// </summary>
         /// <param name="name">File name</param>
-        /// <returns>File last modified time</returns>
+        /// <returns>File last modified time in DateTime UTC</returns>
         public DateTime? GetLastModifiedTime(string name)
         {
             try
@@ -56,7 +56,7 @@ namespace WOPIHost
                 DateTime lastModified = response.LastModified;
                 response.Close();
 
-                return lastModified;
+                return lastModified.ToUniversalTime();
             }
             catch (Exception)
             {
@@ -114,7 +114,6 @@ namespace WOPIHost
 
             return 0;
         }
-
         /// <summary>
         /// Get file name list.
         /// </summary>
@@ -138,6 +137,28 @@ namespace WOPIHost
             reader.Close();
             response.Close();
             return result;
+        }
+
+        /// <summary>
+        /// Get the file version.
+        /// </summary>
+        /// <param name="name">File name</param>
+        /// <returns>Return a string representing the file version.</returns>
+        public string GetFileVersion(string name)
+        {
+            DateTime ftime = (DateTime) GetLastModifiedTime(name);
+            return ftime.ToString("O" /* ISO 8601 DateTime format string */); 
+        }
+
+        /// <summary>
+        /// Get the readonly status of the file.
+        /// </summary>
+        /// <param name="name">File name</param>
+        /// <returns>Return true if readonly; Otherwise, return false</returns>
+        public bool GetReadOnlyStatus(string name)
+        {
+            // for FTP always assume read/write.
+            return false;
         }
     }
 }

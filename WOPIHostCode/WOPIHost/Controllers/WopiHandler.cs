@@ -24,7 +24,7 @@ namespace WOPIHost.Controllers
         private const string ContentsRequestPath = @"/contents";
         private const string ChildrenRequestPath = @"/children";
         private const string uid = "TestUser";
-        public static readonly string LocalStoragePath = ConfigurationManager.AppSettings["FileServiceUrl"];
+        public static readonly string LocalStoragePath = ConfigurationManager.AppSettings["FileLocalPath"];
 
         private class LockInfo
         {
@@ -274,8 +274,7 @@ namespace WOPIHost.Controllers
                 return;
             }
 
-            DateTime? lastModifiedTime = storage.GetLastModifiedTime(requestData.Id);
-
+            bool bRO = storage.GetReadOnlyStatus(requestData.Id);
             try
             {
                 CheckFileInfoResponse responseData = new CheckFileInfoResponse()
@@ -284,14 +283,16 @@ namespace WOPIHost.Controllers
                     BaseFileName = Path.GetFileName(requestData.Id),
                     OwnerId = "documentOwnerId",
                     Size = Convert.ToInt32(size),
-                    //Version = file.LastWriteTimeUtc.ToString("O" /* ISO 8601 DateTime format string */), // Using the file write time is an arbitrary choice.
-                    Version = Convert.ToDateTime((DateTime)lastModifiedTime).ToFileTimeUtc().ToString(),
+                    Version = storage.GetFileVersion(requestData.Id),
+                    UserId = "WOPITestUser",
 
                     // optional CheckFileInfo properties
                     BreadcrumbBrandName = "LocalStorage WOPI Host",
                     //BreadcrumbFolderName = fileInfo.Directory != null ? fileInfo.Directory.Name : "",
                     BreadcrumbFolderName = "",
                     BreadcrumbDocName = Path.GetFileNameWithoutExtension(requestData.Id),
+                    BreadcrumbBrandUrl = "http://" + context.Request.Url.Host,
+                    BreadcrumbFolderUrl = "http://" + context.Request.Url.Host,
 
                     UserFriendlyName = "A WOPI User",
 
@@ -299,8 +300,8 @@ namespace WOPIHost.Controllers
                     SupportsUpdate = true,
                     UserCanNotWriteRelative = true, /* Because this host does not support PutRelativeFile */
 
-                    ReadOnly = false,
-                    UserCanWrite = true
+                    ReadOnly = bRO,
+                    UserCanWrite = !bRO
                 };
 
                 string jsonString = JsonConvert.SerializeObject(responseData);
@@ -356,6 +357,11 @@ namespace WOPIHost.Controllers
                 while (i > 0);
 
                 context.Response.OutputStream.Write(bytes.ToArray(), 0, bytes.Count);
+
+                stream.Close();
+                stream.Dispose();
+
+                //context.Response.AddHeader(WopiHeaders.ItemVersion, storage.GetFileVersion(requestData.FullPath));
                 ReturnSuccess(context.Response);
             }
             catch (UnauthorizedAccessException)
@@ -429,6 +435,8 @@ namespace WOPIHost.Controllers
                     return;
                 }
 
+                context.Response.AddHeader(WopiHeaders.ItemVersion, storage.GetFileVersion(requestData.FullPath));
+
                 ReturnSuccess(context.Response);
             }
             catch (UnauthorizedAccessException)
@@ -470,12 +478,10 @@ namespace WOPIHost.Controllers
             lock (Locks)
             {
                 LockInfo existingLock;
-                if (TryGetLock(requestData.Id, out existingLock))
+                bool fLocked = TryGetLock(requestData.Id, out existingLock);
+                if (fLocked && existingLock.Lock != newLock)
                 {
-                    // There is a valid existing lock on the file
-
-                    // Regardless of whether the new lock matches the existing lock, this should be treated as a lock mismatch
-                    // per the documentation: https://wopi.readthedocs.io/projects/wopirest/en/latest/files/Lock.html
+                    // There is a valid existing lock on the file and it doesn't match the requested lockstring.
 
                     // This is a fairly common case and shouldn't be tracked as an error.  Office Online can store
                     // information about a current session in the lock value and expects to conflict when there's
@@ -486,9 +492,14 @@ namespace WOPIHost.Controllers
                 {
                     // The file is not currently locked or the lock has already expired
 
+                    if (fLocked)
+                        Locks.Remove(requestData.Id);
+
                     // Create and store new lock information
                     // TODO: In a real implementation the lock should be stored in a persisted and shared system.
                     Locks[requestData.Id] = new LockInfo() { DateCreated = DateTime.UtcNow, Lock = newLock };
+
+                    context.Response.AddHeader(WopiHeaders.ItemVersion, storage.GetFileVersion(requestData.FullPath));
 
                     // Return success
                     ReturnSuccess(context.Response);
@@ -584,6 +595,7 @@ namespace WOPIHost.Controllers
 
                         // Remove the current lock
                         Locks.Remove(requestData.Id);
+                        context.Response.AddHeader(WopiHeaders.ItemVersion, storage.GetFileVersion(requestData.FullPath));
                         ReturnSuccess(context.Response);
                     }
                     else

@@ -180,6 +180,8 @@
     <Compile Include="Controllers\WopiRequest.cs" />
     <Compile Include="Controllers\WopiResponse.cs" />
     <Compile Include="Controllers\WopiRouteHandler.cs" />
+    <Compile Include="Controllers\WopiValidatorController.cs" />
+    <Compile Include="FileStorage.cs" />
     <Compile Include="FileStorageFactory.cs" />
     <Compile Include="FTPFileStorage.cs" />
     <Compile Include="Global.asax.cs">
@@ -188,6 +190,7 @@
     <Compile Include="IFileStorage.cs" />
     <Compile Include="Models\FileLink.cs" />
     <Compile Include="Models\WopiAction.cs" />
+    <Compile Include="Models\WopiValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AccessTokenUtil.cs" />
     <Compile Include="Utils\DiscoveryUtil.cs" />
@@ -263,6 +266,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\HostPage\Index.cshtml" />
     <Content Include="Views\WopiFrame\Index.cshtml" />
+    <Content Include="Views\WopiValidator\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
