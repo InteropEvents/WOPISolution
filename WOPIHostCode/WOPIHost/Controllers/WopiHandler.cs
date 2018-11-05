@@ -274,6 +274,7 @@ namespace WOPIHost.Controllers
                 return;
             }
 
+            bool bRO = storage.GetReadOnlyStatus(requestData.Id);
             try
             {
                 CheckFileInfoResponse responseData = new CheckFileInfoResponse()
@@ -299,8 +300,8 @@ namespace WOPIHost.Controllers
                     SupportsUpdate = true,
                     UserCanNotWriteRelative = true, /* Because this host does not support PutRelativeFile */
 
-                    ReadOnly = storage.GetReadOnlyStatus(requestData.Id),
-                    UserCanWrite = !storage.GetReadOnlyStatus(requestData.Id),
+                    ReadOnly = bRO,
+                    UserCanWrite = !bRO
                 };
 
                 string jsonString = JsonConvert.SerializeObject(responseData);
@@ -358,7 +359,7 @@ namespace WOPIHost.Controllers
                 context.Response.OutputStream.Write(bytes.ToArray(), 0, bytes.Count);
 
                 stream.Close();
-                stream.Dispose(); 
+                stream.Dispose();
 
                 //context.Response.AddHeader(WopiHeaders.ItemVersion, storage.GetFileVersion(requestData.FullPath));
                 ReturnSuccess(context.Response);

@@ -139,6 +139,11 @@ namespace WOPIHost
             return result;
         }
 
+        /// <summary>
+        /// Get the file version.
+        /// </summary>
+        /// <param name="name">File name</param>
+        /// <returns>Return a string representing the file version.</returns>
         public string GetFileVersion(string name)
         {
             DateTime ftime = (DateTime) GetLastModifiedTime(name);

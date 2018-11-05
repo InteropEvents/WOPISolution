@@ -124,6 +124,11 @@ namespace WOPIHost
             return basenames;
         }
 
+        /// <summary>
+        /// Get the file version.
+        /// </summary>
+        /// <param name="name">File name</param>
+        /// <returns>Return a string representing the file version.</returns>
         public string GetFileVersion(string name)
         {
             string fullPath = Path.Combine(localStoragePath, name);
