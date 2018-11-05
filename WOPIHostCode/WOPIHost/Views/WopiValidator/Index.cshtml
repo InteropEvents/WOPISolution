@@ -26,7 +26,8 @@
             Command 
         </dt>
         <dd>
-            dotnet run --project .\src\WopiValidator\WopiValidator.csproj --framework net45 -- -t @Html.DisplayFor(model => model.AccessToken) -w http://jeebshpzb:8888/wopi/files/.wopitest -l 0  -e WopiCore  -s
+            @*dotnet run --project .\src\WopiValidator\WopiValidator.csproj --framework net45 -- -t @Html.DisplayFor(model => model.AccessToken) -w http://jeebshpzb:8888/wopi/files/.wopitest -l 0  -e WopiCore  -s*@
+            dotnet run --project .\src\WopiValidator\WopiValidator.csproj --framework net45 -- -t @Html.DisplayFor(model => model.AccessToken) -w @Html.DisplayFor(model => model.HostURL) -l 0  -e WopiCore  -s
         </dd>
     </dl>
 </div>
