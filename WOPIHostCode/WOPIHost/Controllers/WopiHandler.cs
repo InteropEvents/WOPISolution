@@ -360,7 +360,7 @@ namespace WOPIHost.Controllers
                 stream.Close();
                 stream.Dispose(); 
 
-                context.Response.AddHeader(WopiHeaders.ItemVersion, storage.GetFileVersion(requestData.FullPath));
+                //context.Response.AddHeader(WopiHeaders.ItemVersion, storage.GetFileVersion(requestData.FullPath));
                 ReturnSuccess(context.Response);
             }
             catch (UnauthorizedAccessException)
