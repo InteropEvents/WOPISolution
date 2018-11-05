@@ -9,5 +9,6 @@ namespace WOPIHost.Models
     {
         public string AccessToken { get; set; }
         public string FileName { get; set; }
+        public string HostURL { get; set; }
     }
 }
