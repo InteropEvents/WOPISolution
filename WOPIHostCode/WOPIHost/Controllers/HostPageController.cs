@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using WOPIHost.Models;
+using System.IO;
 
 namespace WOPIHost.Controllers
 {
@@ -39,9 +40,14 @@ namespace WOPIHost.Controllers
 
             foreach (string fileName in fileNames)
             {
+                string ext = string.Empty;
                 FileLink fileLink = new FileLink();
                 fileLink.Name = fileName;
-                if (fileName == ".wopitest")
+                if (Path.HasExtension(fileName))
+                    ext = Path.GetExtension(fileName);
+
+                // WOPI Validator now requires the wopi test file to have a filename, "." and the "wopitest" extenstion.
+                if ( (!string.IsNullOrEmpty(ext)) && (ext == ".wopitest"))
                 {
                     fileLink.Url = string.Format("http://{0}/WopiValidator/Index/{1}",
                         ConfigurationManager.AppSettings["WOPIServerName"],
